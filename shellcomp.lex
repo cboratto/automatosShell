@@ -5,5 +5,6 @@
 %%
 (ls|ps|touch|ifconfig)  { yylval.sval = strdup(yytext); return COMANDO; } 
 [a-z]+\s+[/a-z\.]+ { yylval.sval = strdup(yytext); return ARGUMENTO; } 
-"\n" ;
+"\n" {nometerminal();} 
+;
 %%

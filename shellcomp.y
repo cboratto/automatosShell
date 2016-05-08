@@ -22,7 +22,7 @@ linhas : linha | linhas linha
 linha : instrucao 
  ;
 
-instrucao: COMANDO  { system($1) } | COMANDO ARGUMENTO { printf("passei aqui 2\n"); 
+instrucao: COMANDO  { system($1); } | COMANDO ARGUMENTO { printf("passei aqui 2\n"); 
 														char* s=malloc(sizeof(char)*(strlen($1)+strlen($2)+1));
                                 						strcpy(s,$1); 
                                 						strcat(s," ");
@@ -42,4 +42,13 @@ int main(int argc, char **argv)
 void yyerror(char *msg)
 {
  fprintf(stderr, "erro: %s \n", msg);
+}
+
+void nometerminal(){
+	FILE *ls = popen("pwd", "r");
+	char buf[256];	
+	fgets(buf, sizeof(buf), ls);
+	pclose(ls);
+	strtok(buf, "\n");
+	printf("CaioShell:%s>>",buf );
 }
