@@ -1,18 +1,37 @@
 %{
- #include <stdio.h>
- #include <string.h>
- void yyerror(char *);
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+void yyerror(char *); 
+extern char * yytext;
 %}
-%token COMANDO
-%token FIM_LINHA
-%token ARGUMENTO
-%start linha
+
+%union {
+	char *sval;
+}
+
+%token <sval> COMANDO
+%token <sval> ARGUMENTO
+%start linhas
+
+
 %%
-linha: instrucao FIM_LINHA { system($1); }
+linhas : linha | linhas linha 
  ;
-instrucao: COMANDO FIM_LINHA { $$ = $1; }
-		 | COMANDO ARGUMENTO FIM_LINHA { $$ = strcat($1, $2); }
+
+linha : instrucao 
  ;
+
+instrucao: COMANDO  { system($1) } | COMANDO ARGUMENTO { printf("passei aqui 2\n"); 
+														char* s=malloc(sizeof(char)*(strlen($1)+strlen($2)+1));
+                                						strcpy(s,$1); 
+                                						strcat(s," ");
+                                						strcat(s,$2);
+                                						printf("comando %s",s);
+                                						system(s);
+														}
+ ;
+
 %%
 int main(int argc, char **argv)
 {
@@ -22,5 +41,5 @@ int main(int argc, char **argv)
 /* função usada pelo bison para dar mensagens de erro */
 void yyerror(char *msg)
 {
- fprintf(stderr, "erro: %s\n", msg);
+ fprintf(stderr, "erro: %s \n", msg);
 }
