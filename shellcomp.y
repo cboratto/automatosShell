@@ -33,17 +33,6 @@ instrucao: COMANDO  { system($1); } | COMANDO ARGUMENTO { printf("passei aqui 2\
  ;
 
 %%
-int main(int argc, char **argv)
-{
- return yyparse();
-}
-
-/* função usada pelo bison para dar mensagens de erro */
-void yyerror(char *msg)
-{
- fprintf(stderr, "erro: %s \n", msg);
-}
-
 void nometerminal(){
 	FILE *ls = popen("pwd", "r");
 	char buf[256];	
@@ -51,4 +40,16 @@ void nometerminal(){
 	pclose(ls);
 	strtok(buf, "\n");
 	printf("CaioShell:%s>>",buf );
+}
+
+int main(int argc, char **argv)
+{
+ nometerminal();
+ return yyparse();
+}
+
+/* função usada pelo bison para dar mensagens de erro */
+void yyerror(char *msg)
+{
+ fprintf(stderr, "erro: %s \n", msg);
 }
