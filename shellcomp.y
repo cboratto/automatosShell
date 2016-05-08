@@ -27,7 +27,7 @@ instrucao: COMANDO  { system($1) } | COMANDO ARGUMENTO { printf("passei aqui 2\n
                                 						strcpy(s,$1); 
                                 						strcat(s," ");
                                 						strcat(s,$2);
-                                						printf("comando %s",s);
+                                						printf(">>>COMANDO %s\n",s);
                                 						system(s);
 														}
  ;
