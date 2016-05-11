@@ -12,24 +12,25 @@ extern char * yytext;
 
 %token <sval> COMANDO
 %token <sval> ARGUMENTO
+%token FIM_COMANDO
 %start linhas
 
 
 %%
-linhas : linha | linhas linha 
+linhas : 
+	| linhas instrucao
  ;
 
-linha : instrucao 
- ;
 
-instrucao: COMANDO  { system($1); } | COMANDO ARGUMENTO { printf("passei aqui 2\n"); 
-														char* s=malloc(sizeof(char)*(strlen($1)+strlen($2)+1));
-                                						strcpy(s,$1); 
-                                						strcat(s," ");
-                                						strcat(s,$2);
-                                						printf(">>>COMANDO %s\n",s);
-                                						system(s);
-														}
+
+instrucao: COMANDO FIM_COMANDO 			{  system($1); } 
+	| COMANDO ARGUMENTO FIM_COMANDO 	{ 	char* s=malloc(sizeof(char)*(strlen($1)+strlen($2)+1));
+	                						strcpy(s,$1); 
+	                						strcat(s," ");
+	                						strcat(s,$2);                                						
+	                						system(s);
+										}
+	| FIM_COMANDO
  ;
 
 %%
