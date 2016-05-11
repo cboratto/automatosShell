@@ -18,6 +18,7 @@ void changedir(char *);
 %token <sval> ARGUMENTO
 %token <sval> CHDIR
 %token FIM_COMANDO
+%token QUIT
 %start linhas
 
 
@@ -38,6 +39,7 @@ instrucao: COMANDO FIM_COMANDO 			{  system($1); }
 	| CHDIR ARGUMENTO FIM_COMANDO {
             						changedir($2);
 								 }
+	| QUIT FIM_COMANDO { printf("\n"); exit(EXIT_SUCCESS);  }
 	| FIM_COMANDO
  ;
 
